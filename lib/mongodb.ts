@@ -6,8 +6,7 @@ interface MongooseCache {
   promise: Promise<typeof mongoose> | null;
 }
 
-// Extend the global namespace to include the mongoose cache
-
+// Get MongoDB URI from environment variables
 // Get MongoDB URI from environment variables
 const MONGODB_URI = process.env.MONGODB_URI;
 
