@@ -24,11 +24,15 @@ if (!MONGODB_URI) {
 // Initialize the cached connection object
 // In development, use a global variable to preserve the connection across hot reloads
 // In production, create a new cache object for each instance
-let cached: MongooseCache = global.mongoose || { conn: null, promise: null };
+const globalWithMongoose = globalThis as typeof globalThis & {
+  mongoose?: MongooseCache;
+};
 
-// Store the cache in the global object for development
-if (process.env.NODE_ENV === 'development') {
-  global.mongoose = cached;
+const cached: MongooseCache =
+  globalWithMongoose.mongoose || { conn: null, promise: null };
+
+if (!globalWithMongoose.mongoose) {
+  globalWithMongoose.mongoose = cached;
 }
 
 /**
