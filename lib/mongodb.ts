@@ -7,9 +7,6 @@ interface MongooseCache {
 }
 
 // Extend the global namespace to include the mongoose cache
-declare global {
-  let mongoose: MongooseCache | undefined;
-}
 
 // Get MongoDB URI from environment variables
 const MONGODB_URI = process.env.MONGODB_URI;
