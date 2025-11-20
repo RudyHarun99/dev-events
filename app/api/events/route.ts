@@ -4,6 +4,14 @@ import { v2 as cloudinary } from "cloudinary";
 import { Event } from "@/database";
 import connectToDatabase from "@/lib/mongodb";
 
+if (!process.env.CLOUDINARY_URL && (
+    !process.env.CLOUDINARY_CLOUD_NAME ||
+    !process.env.CLOUDINARY_API_KEY
+  )) {
+  throw new Error('Missing Cloudinary configuration. Set CLOUDINARY_URL or CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET.');
+}
+cloudinary.config();
+
 export async function POST(req: NextRequest ) {
   try {
     await connectToDatabase();
