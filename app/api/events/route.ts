@@ -4,6 +4,18 @@ import { v2 as cloudinary } from "cloudinary";
 import { Event } from "@/database";
 import connectToDatabase from "@/lib/mongodb";
 
+/**
+ * Creates a new Event from multipart form data, uploads the provided image to Cloudinary, and stores the event in the database.
+ *
+ * Expects form-data fields representing the event properties and an `image` file. On success returns the created event.
+ *
+ * @param req - Request whose body is multipart/form-data containing event fields and an `image` file
+ * @returns JSON responses:
+ *  - 201: `{ message: 'Event created Successfully', event }` with the created event
+ *  - 400: `{ message: 'Invalid JSON Data Format' }` when form fields cannot be parsed
+ *  - 400: `{ message: 'Image file is required' }` when `image` is missing
+ *  - 500: `{ message: 'Event Creation Failed', error }` on unexpected errors
+ */
 export async function POST(req: NextRequest ) {
   try {
     await connectToDatabase();
@@ -62,6 +74,13 @@ export async function POST(req: NextRequest ) {
   };
 };
 
+/**
+ * Fetches all Event documents from the database sorted by creation time (newest first) and returns them as JSON.
+ *
+ * @returns A JSON HTTP response:
+ * - On success (status 200): `{ message: 'Event Fetched Successfully', events: Event[] }`.
+ * - On failure (status 500): `{ message: 'Event Fetching Failed', error: string }`.
+ */
 export async function GET() {
   try {
     await connectToDatabase();
