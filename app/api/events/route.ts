@@ -64,6 +64,14 @@ export async function POST(req: NextRequest ) {
 
     event.image = (uploadResult as { secure_url: string }).secure_url;
 
+    if (!event.image || typeof event.image !== 'string') {
+      return NextResponse.json({
+        message: 'Image upload failed: invalid response from Cloudinary',
+      }, {
+        status: 500,
+      });
+    }
+
     const createdEvent = await Event.create(event);
     return NextResponse.json({
       message: 'Event created Successfully',
