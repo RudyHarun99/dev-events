@@ -49,8 +49,9 @@ const EventTags = ({
 }) => (
   <div className="flex flex-row gap-1.5 flex-wrap">
     {
-      tags.map(tag => (
-        <div className="pill" key={tag}>{tag}</div>
+      tags.map((tag, index) => (
+        <div className="pill" key={index}>{tag}</div>
+      ))
       ))
     }
   </div>
@@ -86,8 +87,27 @@ const EventDetailsPage = async ({
     organizer,
   } = event;
 
-  const cleanedAgenda = cleanedArray(agenda[0]);
-  const cleanedTags = cleanedArray(tags[0]);
+  const cleanedAgenda = agenda && agenda.length > 0 
+    ? (() => {
+        try {
+          return cleanedArray(agenda[0]);
+        } catch (error) {
+          console.error('Failed to parse agenda:', error);
+          return [];
+        }
+      })()
+    : [];
+    
+  const cleanedTags = tags && tags.length > 0
+    ? (() => {
+        try {
+          return cleanedArray(tags[0]);
+        } catch (error) {
+          console.error('Failed to parse tags:', error);
+          return [];
+        }
+      })()
+    : [];
   const bookings = 10;
 
   return (
