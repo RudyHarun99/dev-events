@@ -2,10 +2,6 @@ import { notFound } from "next/navigation";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
-if (!BASE_URL) {
-  throw new Error('NEXT_PUBLIC_BASE_URL environment variable is not set');
-}
-
 const EventDetailsPage = async ({
   params
 }: {
