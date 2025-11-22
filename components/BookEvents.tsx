@@ -4,7 +4,7 @@ import { FormEvent, useState } from "react"
 
 const BookEvents = () => {
   const [email, setEmail] = useState('');
-  const [submited, setSubmited] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
