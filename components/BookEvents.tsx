@@ -30,7 +30,10 @@ const BookEvents = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 id="email"
+                name="email"
                 placeholder="Enter your email address"
+                aria-label="Email address for event booking"
+                required
               />
             </div>
             <button
