@@ -52,7 +52,6 @@ const EventTags = ({
       tags.map((tag, index) => (
         <div className="pill" key={index}>{tag}</div>
       ))
-      ))
     }
   </div>
 );

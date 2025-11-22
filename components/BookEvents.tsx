@@ -10,14 +10,14 @@ const BookEvents = () => {
     e.preventDefault();
 
     setTimeout(() => {
-      setSubmited(true);
+      setSubmitted(true);
     }, 1000);
   };
 
   return (
     <div id="book-event">
       {
-        submited
+        submitted
         ?
         ( <p className="text-sm">Thank you for signing up!</p> )
         :

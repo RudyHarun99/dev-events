@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function cleanedArray(input: string): unknown {
+export function cleanedArray(input: string) {
   if (!input || typeof input !== 'string') {
     throw new Error('cleanedArray: input must be a non-empty string');
   }
