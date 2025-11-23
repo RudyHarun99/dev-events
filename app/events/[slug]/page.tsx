@@ -1,7 +1,9 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { cleanedArray } from "@/lib/utils";
 import BookEvents from "@/components/BookEvents";
+import { getSimilarEventsBySlug } from "@/lib/actions/event.actions";
+import { IEvent } from "@/database";
+import EventCard from "@/components/EventCard";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
@@ -35,7 +37,7 @@ const EventAgenda = ({
     <ul>
       {
         agendaItems.map(item => (
-          <li key={item}>- {item}</li>
+          <li key={item}>{item}</li>
         ))
       }
     </ul>
@@ -86,28 +88,8 @@ const EventDetailsPage = async ({
     organizer,
   } = event;
 
-  const cleanedAgenda = agenda && agenda.length > 0 
-    ? (() => {
-        try {
-          return cleanedArray(agenda[0]);
-        } catch (error) {
-          console.error('Failed to parse agenda:', error);
-          return [];
-        }
-      })()
-    : [];
-    
-  const cleanedTags = tags && tags.length > 0
-    ? (() => {
-        try {
-          return cleanedArray(tags[0]);
-        } catch (error) {
-          console.error('Failed to parse tags:', error);
-          return [];
-        }
-      })()
-    : [];
   const bookings = 10;
+  const similarEvents: IEvent[] = await getSimilarEventsBySlug(slug);
 
   return (
     <section id="event">
@@ -175,7 +157,7 @@ const EventDetailsPage = async ({
           </section>
 
           {/* Agenda */}
-          <EventAgenda agendaItems={cleanedAgenda} />
+          <EventAgenda agendaItems={agenda} />
 
           {/* Organizer */}
           <section className="flex-col-gap-2">
@@ -184,7 +166,7 @@ const EventDetailsPage = async ({
           </section>
 
           {/* Tags */}
-          <EventTags tags={cleanedTags} />
+          <EventTags tags={tags} />
 
         </div>
 
@@ -204,6 +186,18 @@ const EventDetailsPage = async ({
             <BookEvents />
           </div>
         </aside>
+      </div>
+
+      <div className="flex w-full flex-col gap-4 pt-20">
+        <h2>Similar Events</h2>
+        <div className="events">
+          {
+            similarEvents.length > 0 &&
+            similarEvents.map((event: IEvent) => (
+              <EventCard key={event.title} { ...event } />
+            ))
+          }
+        </div>
       </div>
     </section>
   );
