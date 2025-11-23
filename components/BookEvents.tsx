@@ -28,7 +28,6 @@ const BookEvents = ({
       posthog.capture('event_booked', {
         eventId,
         slug,
-        email,
       });
     } else {
       console.error('Booking creation failed');
