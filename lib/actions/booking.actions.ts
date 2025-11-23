@@ -13,6 +13,12 @@ export const createBooking = async ({
   email: string;
 }) => {
   try {
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+      return { success: false, error: 'Invalid email address' };
+    }
+
     await connectToDatabase();
     await Booking.create({
       eventId,
@@ -24,5 +30,5 @@ export const createBooking = async ({
   } catch (error) {
     console.error('create booking failed', error);
     return { success: false };
-  };
+  }
 };
