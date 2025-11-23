@@ -55,7 +55,19 @@ export async function POST(req: NextRequest ) {
       }, {
         status: 400,
       });
-    }
+    };
+
+    let tags, agenda;
+    try {
+      tags = JSON.parse(formData.get('tags') as string);
+      agenda = JSON.parse(formData.get('agenda') as string);
+    } catch (error) {
+      return NextResponse.json({
+        message: 'Invalid JSON format for tags or agenda',
+      }, {
+        status: 400,
+      });
+    };
 
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
@@ -80,7 +92,12 @@ export async function POST(req: NextRequest ) {
       });
     }
 
-    const createdEvent = await Event.create(event);
+    const createdEvent = await Event.create({
+      ...event,
+      tags,
+      agenda,
+    });
+
     return NextResponse.json({
       message: 'Event created Successfully',
       event: createdEvent,
