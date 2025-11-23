@@ -8,6 +8,11 @@ export const getSimilarEventsBySlug = async (slug: string) => {
     await connectToDatabase();
 
     const event = await Event.findOne({ slug });
+
+    if (!event) {
+      return [];
+    }
+
     return await Event.find({
       _id: {
         $ne: event._id,
@@ -18,5 +23,5 @@ export const getSimilarEventsBySlug = async (slug: string) => {
     }).lean<IEvent[]>();
   } catch {
     return [];
-  };
+  }
 };
