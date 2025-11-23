@@ -4,7 +4,7 @@ import BookEvents from "@/components/BookEvents";
 import { getSimilarEventsBySlug } from "@/lib/actions/event.actions";
 import { IEvent } from "@/database";
 import EventCard from "@/components/EventCard";
-import { unstable_cacheLife as cacheLife } from "next/cache";
+import { cacheLife } from "next/cache";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
@@ -79,6 +79,7 @@ const EventDetailsPage = async ({
   if (!event) return notFound();
 
   const {
+    _id,
     description,
     image,
     overview,
@@ -187,7 +188,7 @@ const EventDetailsPage = async ({
                 `Be the first to book your spot!`
               }
             </p>
-            <BookEvents />
+            <BookEvents eventId={_id} slug={slug} />
           </div>
         </aside>
       </div>
