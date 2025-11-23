@@ -4,7 +4,7 @@ import BookEvents from "@/components/BookEvents";
 import { getSimilarEventsBySlug } from "@/lib/actions/event.actions";
 import { IEvent } from "@/database";
 import EventCard from "@/components/EventCard";
-import { cacheLife } from "next/cache";
+import { unstable_cacheLife as cacheLife } from "next/cache";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
